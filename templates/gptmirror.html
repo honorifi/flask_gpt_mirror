@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ChatGPT</title>
+    <style type="text/css">
+        .talk_con{
+            width:600px;
+            height:700px;
+            border:1px solid #666;
+            margin:50px auto 0;
+            background:#f9f9f9;
+        }
+        .talk_show{
+            width:580px;
+            height:620px;
+            border:1px solid #666;
+            background:#fff;
+            margin:10px auto 0;
+            overflow:auto;
+        }
+        .talk_input{
+            width:580px;
+            margin:10px auto 0;
+        }
+        .whotalk{
+            width:80px;
+            height:30px;
+            float:left;
+            outline:none;
+        }
+        .talk_word{
+            width:420px;
+            height:26px;
+            padding:0px;
+            float:left;
+            margin-left:10px;
+            outline:none;
+            text-indent:10px;
+        }
+        .talk_sub{
+            width:56px;
+            height:30px;
+            float:left;
+            margin-left:10px;
+        }
+        .atalk{
+           margin:10px;
+        }
+        .atalk span{
+            display:inline-block;
+            background:#0181cc;
+            border-radius:10px;
+            color:#fff;
+            padding:5px 10px;
+        }
+        .btalk{
+            margin:10px;
+            text-align:right;
+        }
+        .btalk span{
+            display:inline-block;
+            background:#ef8201;
+            border-radius:10px;
+            color:#fff;
+            padding:5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="talk_con">
+        <div class="talk_show" id="words">
+
+        <div class="atalk"><span>您好，我是ChatGPT，请输入您想查询的问题。</span></div>
+        </div>
+        <div class="talk_input">
+            <input type="text" class="talk_word" id="talkwords">
+            <input type="submit" value="发送" class="talk_sub" id="submit">
+        </div>
+    </div>
+</body>
+   <script type="text/javascript">
+        document.getElementById('submit').onclick=()=>{
+            //获取问题并清空问题框
+            var b = document.getElementById('talkwords').value
+
+            //添加问题到对话
+            const d=document.createElement('div');
+            Ques = '<div class="btalk"><span>'+b+'</span></div>'
+            d.innerHTML=Ques;
+            const chatbox = document.getElementById('words')
+            chatbox.insertBefore(d, chatbox.nextSiblings)
+
+            const d2=document.createElement('div');
+            think = '<div class="atalk"><span>我正在思考，大约需要一分钟，请稍等一会...</span></div>'
+            d2.innerHTML=think;
+            chatbox.insertBefore(d2, chatbox.nextSiblings)
+
+
+            //xhr
+            var ajax = null;
+            if(window.XMLHttpRequest){
+                ajax = new XMLHttpRequest();
+            }else{
+                ajax = new ActiveXObject("Mincrosoft.XMLHTTP");
+            };
+            ajax.open("POST","/post_test");
+	        ajax.setRequestHeader("Access-Control-Allow-Origin", "*")
+            ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded")
+            ajax.send('name='+document.getElementById('talkwords').value)
+            document.getElementById('talkwords').value=''
+
+            ajax.onreadystatechange = function(){
+                if(ajax.readyState == 4&& ajax.status ==200){
+                    //左边的对话
+                    a = ajax.responseText
+                    const lines = a.split("\n");
+                    const d=document.createElement('div');
+                    ih = '<div class="atalk"><span>\n'
+                    for (i=0;i<lines.length;i++){
+                        ih += '<p>'+lines[i].replace(/ /g,"&ensp;")+'</p>'
+                    }
+                    ih += '</span></div>'
+                    console.log(ih)
+                    d.innerHTML=ih;
+                    const kk = document.getElementById('words')
+                    kk.insertBefore(d, kk.nextSiblings)
+                    }
+            }
+            };
+    </script>
+</html>
+
+

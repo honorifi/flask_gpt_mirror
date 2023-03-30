@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Website</title>
+</head>
+<body>
+	<h1>Welcome to My Website</h1>
+
+	<h2>Register</h2>
+	<form action="/register" method="POST">
+		<label for="username">Username:</label>
+		<input type="text" id="username" name="username"><br>
+
+		<label for="password">Password:</label>
+		<input type="password" id="password" name="password"><br>
+
+		<input type="submit" value="Register">
+	</form>
+
+	<h2>Login</h2>
+	<form action="/verification" method="POST">
+		<label for="username">Username:</label>
+		<input type="text" id="username" name="username"><br>
+
+		<label for="password">Password:</label>
+		<input type="password" id="password" name="password"><br>
+
+		<input type="submit" value="Login">
+	</form>
+</body>
+<!-- <script type="text/javascript">
+	document.getElementById('submit').onclick=()=>{
+		//获取账号密码
+		var account = document.getElementById('username').value
+		var passwdd = document.getElementById('password').value
+		console.log('account: '+account)
+		console.log('passwdd: '+passwdd)
+
+		//xhr
+		var ajax = null;
+		if(window.XMLHttpRequest){
+			ajax = new XMLHttpRequest();
+		}else{
+			ajax = new ActiveXObject("Mincrosoft.XMLHTTP");
+		};
+		ajax.open("POST","/verification");
+		ajax.setRequestHeader("Access-Control-Allow-Origin", "*")
+		ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded")
+		ajax.send('account='+account)
+		ajax.send('password='+passwdd)
+		};
+</script> -->
+</html>

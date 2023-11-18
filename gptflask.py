@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template
 from flask_cors import CORS
 import openai
-openai.api_key = "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"
+openai.api_key = "enter your own api_key requested from openai"
 
 app = Flask(__name__)
 CORS(app)
